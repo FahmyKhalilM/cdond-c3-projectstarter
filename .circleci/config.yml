@@ -104,18 +104,18 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-test
-  scan-frontend:
-    docker:
+  #scan-frontend:
+   # docker:
       # Docker image here
-    steps:
+    #steps:
       # Checkout code from git
       # Restore from cache
       # Your job code here
       
-  scan-backend:
-    docker:
+  #scan-backend:
+   # docker:
       # Docker image here
-    steps:
+    #steps:
       # Checkout code from git
       # Restore from cache
       # Your job code here
