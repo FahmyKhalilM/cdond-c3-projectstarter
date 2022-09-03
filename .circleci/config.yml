@@ -154,7 +154,7 @@ jobs:
           key: backend-scan
   deploy-infrastructure:
     docker:
-      - image: amazon/aws-clidocker
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
