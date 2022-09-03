@@ -224,8 +224,8 @@ jobs:
             ls -la
             cd .circleci/ansible/
              ls -la
-            cat inventory
-            ansible-playbook -i inventory configure-server.yaml
+            cat inventory.txt
+            ansible-playbook -i inventory.txt configure-server.yaml
       # Here's where you will add some code to rollback on failure      
       - destroy-environment:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
