@@ -228,33 +228,7 @@ jobs:
       - destroy-environment:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
           when: on_fail
- # run-migrations:
-  #  docker:
-      # Docker image here that supports NodeJS
-  #    - image: circleci/node:13.8.0
-#    steps:
-      # Checkout code from git
-      - checkout
- #     - restore_cache:
-#           keys:
-#             - backend-build
-#       - run:
-#           name: "Install Dependencies"
-#           command: |
-#             sudo apt-get -y update
-#             sudo apt-get -y install python3
-#             sudo apt-get -y install awscli
- #     - run:
-  #        name: Run migrations
-  #        command: |
-            # Your code here
-            exit 1
-  #    - run:
-   #       name: Send migration results to memstash
-   #       command: |
-            # Your code here
-            exit 1
-     # Here's where you will add some code to rollback on failure              
+               
 workflows:
   default:
     jobs:
