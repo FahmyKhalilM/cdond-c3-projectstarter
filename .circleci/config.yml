@@ -172,6 +172,7 @@ jobs:
           name: Add backend-Ec2 ip to ansible inventory
           working_directory: ./.circleci/ansible
           command: |
+            cd ~/project/.circleci/ansible/
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --filters "Name=tag:project,Values=udapeople" \
@@ -222,7 +223,8 @@ jobs:
           command: |
             pwd &&
             ls -la
-            cat ~/inventory
+            cd .circleci/ansible/
+            cat inventory
             ansible-playbook -i inventory configure-server.yaml
       # Here's where you will add some code to rollback on failure      
       - destroy-environment:
