@@ -268,9 +268,9 @@ jobs:
              export result="$(grep 'has been executed successfully' migrations-${CIRCLE_WORKFLOW_ID:0:7}.txt)" 
              if [ "$result" == "has been executed successfully" ]
              then
-                 curl https://kvdb.io/KbXu3VVreQ25zzytjaW1eL/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+                 curl https://kvdb.io/KbXu3VVreQ25zzytjaW1eL/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1' -k
              else
-                 curl https://kvdb.io/KbXu3VVreQ25zzytjaW1eL/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '0'
+                 curl https://kvdb.io/KbXu3VVreQ25zzytjaW1eL/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '0' -k
              fi
       #  Here's where you will add some code to rollback on failure      
       - destroy-environment:
