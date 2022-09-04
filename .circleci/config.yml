@@ -25,7 +25,11 @@ commands:
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
     parameters:
-      # Add parameter here     
+      # Add parameter here 
+      when:
+        type: string
+      id:
+        type: string      
     steps:
       - run:
           name: Revert migrations
@@ -267,7 +271,8 @@ jobs:
       #  Here's where you will add some code to rollback on failure      
       - destroy-environment:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
-          when: on_fail        
+          when: on_fail  
+   
 workflows:
   default:
     jobs:
