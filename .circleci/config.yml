@@ -278,7 +278,7 @@ jobs:
           when: on_fail  
   deploy-frontend:
      docker:
-       - image: circleci/node
+       - image: circleci/node:13.8.0
      steps:
        - checkout
        - restore_cache:
@@ -309,7 +309,6 @@ jobs:
            command: |
              cd frontend
              ls -lah
-             npm update
              npm run build
              ls -lah
              cat .env
