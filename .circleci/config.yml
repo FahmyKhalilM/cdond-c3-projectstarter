@@ -34,15 +34,18 @@ commands:
       - run:
           name: Revert migrations
           # Add when this will run
+          working_directory: ./backend
           command: |
             # Cursls command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS = 1
+            SUCCESS=$(curl https://kvdb.io/KbXu3VVreQ25zzytjaW1eL/migration_<< parameters.id >>)
+            echo $SUCCESS
             if(( $SUCCESS==1 )); 
             then
             #  cd ~/project/backend
-            #  npm install
-            #  Add revert code here. You can find this in the Getting Started section.
-              exit 1
+            pwd
+            ls -la
+            npm run migrations:revert
+              
             fi
             
 jobs:
@@ -239,7 +242,7 @@ jobs:
 #       Docker image here that supports NodeJS
       - image: circleci/node
     steps:
-       #Checkout code from git
+       #Checkout code from git  
       - checkout
       - restore_cache:
            keys:
@@ -273,6 +276,48 @@ jobs:
       - destroy-environment:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
           when: on_fail  
+  deploy-frontend:
+     docker:
+       - image: circleci/node
+     steps:
+       - checkout
+       - restore_cache:
+          keys:
+            - frontend-build
+       - run:
+           name: Install dependencies
+           command: |
+             sudo apt-get -y update
+             sudo apt-get -y install python3
+             sudo apt-get -y install awscli
+       - run:
+           name: Get backend url
+           command: |
+             cd frontend
+             touch .env
+             export BACKEND_IP=$(aws ec2 describe-instances \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --filters "Name=tag:project,Values=udapeople" \
+              --output text)
+              export API_URL="http://${BACKEND_IP}:3030"
+              echo "API_URL = ${API_URL}"
+              echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
+              cat frontend/.env
+              curl https://kvdb.io/KbXu3VVreQ25zzytjaW1eL/API_URL  -d ${API_URL}
+       - run:
+           name: Deploy frontend objects
+           command: |
+             cd frontend
+             ls -lah
+             npm run build
+             ls -lah
+             cat .env
+             ls -lah dist/
+             aws s3 cp dist s3://udapeople-kopooo0944/ --recursive
+       - destroy-environment
+       - revert_migrations:
+          id: ${CIRCLE_WORKFLOW_ID:0:7}
+          when: on_fail         
    
 workflows:
   default:
