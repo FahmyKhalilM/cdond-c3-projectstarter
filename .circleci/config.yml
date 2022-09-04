@@ -309,6 +309,7 @@ jobs:
            command: |
              cd frontend
              ls -lah
+             npm update
              npm run build
              ls -lah
              cat .env
