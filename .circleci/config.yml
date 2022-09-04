@@ -37,7 +37,7 @@ commands:
           working_directory: ./backend
           command: |
             # Cursls command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS=$(curl https://kvdb.io/KbXu3VVreQ25zzytjaW1eL/migration_<< parameters.id >>)
+            SUCCESS=$(curl https://kvdb.io/KbXu3VVreQ25zzytjaW1eL/migration_<< parameters.id >> -k)
             echo $SUCCESS
             if(( $SUCCESS==1 )); 
             then
