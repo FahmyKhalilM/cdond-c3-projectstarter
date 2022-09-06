@@ -348,7 +348,7 @@ jobs:
             ANSIBLE_HOST_KEY_CHECKING: false
             no_output_timeout: 5m
           command: |
-            # your code heree
+            # your code hersee
             cd backend
             npm i
             npm run build
