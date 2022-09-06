@@ -314,13 +314,54 @@ jobs:
              ls -lah
              cat .env
              ls -lah dist/
-             aws s3 cp dist s3://udapeople-kopooo0944/ --recursive
+             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}/ --recursive
        - destroy-environment:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
           when: on_fail
        - revert-migrations:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
-          when: on_fail         
+          when: on_fail 
+  deploy-backend:
+    docker:
+      # Docker image here that supports Ansible
+      - image: python:3.9.0-alpine
+    steps:
+      # Checkout code from git
+      # Add ssh keys with fingerprint 	
+      # attach workspace
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["7e:e9:0a:eb:f2:c2:80:be:19:64:cc:3b:89:3c:ac:f9"]
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            # your code here
+            apk add --update ansible curl rsync openssh nodejs npm
+            ansible --version
+            pip install awscli
+            aws --version 
+      - run:
+          name: Deploy backend
+          command: |
+            # your code here
+            cd backend
+            npm i
+            npm run build
+            cd ..
+            # Zip the directory
+            tar -C backend -czvf artifact.tar.gz .
+            cd .circleci/ansible
+            echo "Contents  of the inventory.txt file is -------"
+            cat inventory.txt
+            ansible-playbook -i inventory.txt deploy-backend.yml    
+      - destroy-environment:
+          id: ${CIRCLE_WORKFLOW_ID:0:7}
+          when: on_fail
+      - revert-migrations:
+          id: ${CIRCLE_WORKFLOW_ID:0:7}
+          when: on_fail            
    
 workflows:
   default:
@@ -348,3 +389,5 @@ workflows:
           requires: [configure-infrastructure]
       - deploy-frontend:
           requires: [run-migrations]
+      - deploy-backend:
+          requires: [run-migrations]   
