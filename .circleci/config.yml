@@ -344,6 +344,9 @@ jobs:
             aws --version 
       - run:
           name: Deploy backend
+          environment:
+            ANSIBLE_HOST_KEY_CHECKING: false
+            no_output_timeout: 5m
           command: |
             # your code here
             cd backend
