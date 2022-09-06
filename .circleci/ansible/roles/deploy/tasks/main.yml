@@ -1,6 +1,6 @@
 - name: "Copy the Compiled backend Files to EC2 instance"
   copy:
-    src: /home/circleci/project/backend.tar.gz
+    src: /root/project/backend.tar.gz
     dest: /home/ubuntu
 
 - name: "unarchive the dist directory"
