@@ -358,6 +358,7 @@ jobs:
             ls -lah 
             echo "kimo"
             tar -czvf backend.tar.gz backend
+            ls -lah
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
