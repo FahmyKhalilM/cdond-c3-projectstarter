@@ -354,10 +354,12 @@ jobs:
             npm run build
             cd ..
             # Zip the directory
-            tar -C backend -czvf artifact.tar.gz .
+            sudo tar -czvf backend.tar.gz backend
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
+            pwd 
+            ls -lah
             ansible-playbook -i inventory.txt deploy-backend.yml    
       - destroy-environment:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
