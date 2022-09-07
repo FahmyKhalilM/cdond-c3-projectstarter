@@ -18,7 +18,7 @@ commands:
       - run:
           name: Destroy our udapeople frontend  stack and S3 bucket
           command: |
-            #aws s3 rm s3://udapeople-<< parameters.id >> --recursive
+            aws s3 rm s3://udapeople-<< parameters.id >> --recursive
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.id >>         
           when: << parameters.when >>
 
