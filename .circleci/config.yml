@@ -371,33 +371,57 @@ jobs:
           when: on_fail
       - revert-migrations:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
+          when: on_fail          
+  smoke-test:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            apk --no-cache add curl
+            apk update
+            pip install awscli
+      - run:
+          name: Get backend url
+          command: |
+            API_URL=`curl https://kvdb.io/KbXu3VVreQ25zzytjaW1eL/API_URL -k   `
+            echo ${API_URL}
+            export BACKEND_ENDPOINT=${API_URL}/api/status
+            echo ${BACKEND_ENDPOINT}
+            curl  ${BACKEND_ENDPOINT}   
+      - destroy-environment:
+          id: ${CIRCLE_WORKFLOW_ID:0:7}
+          when: on_fail
+      - revert-migrations:
+          id: ${CIRCLE_WORKFLOW_ID:0:7}
           when: on_fail            
-   
-workflows:
-  default:
-    jobs:
-      - build-frontend
-      - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
-      - scan-backend:
-          requires: [build-backend]
-      - scan-frontend:
-          requires: [build-frontend]
-      - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]    
-          filters:
-            branches:
-              only:
-                - master
-      - configure-infrastructure:
-          requires:
-            - deploy-infrastructure
-      - run-migrations:
-          requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [run-migrations]
-      - deploy-backend:
-          requires: [run-migrations]   
+  workflows:
+    default:
+      jobs:
+        - build-frontend
+        - build-backend
+        - test-frontend:
+            requires: [build-frontend]
+        - test-backend:
+            requires: [build-backend]
+        - scan-backend:
+            requires: [build-backend]
+        - scan-frontend:
+            requires: [build-frontend]
+        - deploy-infrastructure:
+            requires: [test-frontend, test-backend, scan-frontend, scan-backend]    
+            filters:
+              branches:
+                only:
+                  - master
+        - configure-infrastructure:
+            requires:
+              - deploy-infrastructure
+        - run-migrations:
+            requires: [configure-infrastructure]
+        - deploy-frontend:
+            requires: [run-migrations]
+        - deploy-backend:
+            requires: [run-migrations]   
