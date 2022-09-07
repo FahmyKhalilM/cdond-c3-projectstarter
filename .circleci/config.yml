@@ -426,4 +426,4 @@ workflows:
       - deploy-backend:
           requires: [run-migrations]   
       - smoke-test:
-          requires: [run-migrations]  
+          requires: [deploy-backend]  
