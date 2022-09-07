@@ -323,7 +323,7 @@ jobs:
           when: on_fail 
   deploy-backend:
     docker:
-      # Docker image here that supports Ansible
+      # Docker image heere that supports Ansible
       - image: python:3.9.0-alpine
     steps:
       # Checkout code from git
