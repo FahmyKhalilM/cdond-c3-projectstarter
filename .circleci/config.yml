@@ -391,12 +391,12 @@ jobs:
             export BACKEND_ENDPOINT=${API_URL}/api/status
             echo ${BACKEND_ENDPOINT}
             curl  ${BACKEND_ENDPOINT}   
-      - destroy-environment:
-          id: ${CIRCLE_WORKFLOW_ID:0:7}
-          when: on_fail
-      - revert-migrations:
-          id: ${CIRCLE_WORKFLOW_ID:0:7}
-          when: on_fail      
+      #- destroy-environment:
+          #id: ${CIRCLE_WORKFLOW_ID:0:7}
+        #  when: on_fail
+    #  - revert-migrations:
+      #    id: ${CIRCLE_WORKFLOW_ID:0:7}
+     #     when: on_fail      
 workflows:
   default:
     jobs:
