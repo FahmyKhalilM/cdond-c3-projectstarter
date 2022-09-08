@@ -424,7 +424,7 @@ jobs:
             export Frontend_URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"  
             echo ${Frontend_URL}
             curl  ${Frontend_URL}   
-            if curl -s ${Frontend_URL} | grep "ok"
+            if curl -s ${Frontend_URL} | grep "Welcome"
              then
                return 0
              else
