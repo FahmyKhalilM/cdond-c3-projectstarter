@@ -458,16 +458,8 @@ jobs:
                --template-file .circleci/files/cloudfront.yml \
                --tags project=UdaPeople-App \
                --stack-name "promote-prod-stack-${CIRCLE_WORKFLOW_ID:0:7}" \
-               --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"
-            aws cloudformation describe-stack-events --stack-name "promote-prod-stack-${CIRCLE_WORKFLOW_ID:0:7}"   
-      # Here's where you will add some code to rollback on failure  
-      - run:
-          name: Update cloudfront distribution
-          command: |
-            # your code here
-            ls -ah
-            aws cloudformation describe-stack-events --stack-name "promote-prod-stack-${CIRCLE_WORKFLOW_ID:0:7}" 
-          when: on_fail  
+               --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"   
+      # Here's where you will add some code to rollback on failure   
       - destroy-environment:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
           when: on_fail
