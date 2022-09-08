@@ -48,7 +48,7 @@ commands:
               
             fi
           when: << parameters.when >>
-  revert-revert-cloudfront:
+  revert-cloudfront:
     description: Revert back to the old environement.
     parameters:
       # Add parameter here 
