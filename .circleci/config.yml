@@ -468,7 +468,7 @@ jobs:
                --tags project=UdaPeople-App \
                --stack-name "promote-prod-stack-${CIRCLE_WORKFLOW_ID:0:7}" \
                --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"   
-      # Here's wheeserse you will add some code to rollback on failure  
+      # Here's wheesersee you will add some code to rollback on failure  
   cleanup:
     docker:
       - image: amazon/aws-cli
